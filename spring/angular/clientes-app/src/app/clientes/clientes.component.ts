@@ -21,7 +21,6 @@ export class ClientesComponent implements OnInit {
   }
 
   delete(cliente:Cliente): void {
-
     swal({
       title: 'Are you sure?',
       text: `¿Seguro que desea eliminar al cliente ${cliente.nombre} ${cliente.apellido}?`,
@@ -37,10 +36,16 @@ export class ClientesComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
         if (result.value) {
-          swal(
-            'Cliente Eliminado!',
-            `Cliente ${cliente.nombre} eliminado con exito.`,
-            'success'
+          this.clienteService.delete(cliente.id).subscribe(
+            response => {
+              this.clientes = this.clientes.filter(cli => cli !== cliente)
+              swal(
+                'Cliente Eliminado!',
+                `Cliente ${cliente.nombre} eliminado con exito.`,
+                'success'
+              )
+              return response;
+            }
           )
         }
       })
