@@ -1,6 +1,6 @@
 package com.nicholas.springboot.backend.apirest.models.dao;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.nicholas.springboot.backend.apirest.models.entity.Cliente;
 
@@ -12,6 +12,6 @@ import com.nicholas.springboot.backend.apirest.models.entity.Cliente;
  * Usar Objetos de Acceso de Datos significa que la tecnología subyacente puede ser actualizada o cambiada sin cambiar otras partes de la aplicación.
  */
 
-public interface IClienteDao extends CrudRepository <Cliente, Long>{
+public interface IClienteDao extends JpaRepository <Cliente, Long>{
 
 }
