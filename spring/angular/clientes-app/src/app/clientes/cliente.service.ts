@@ -31,7 +31,7 @@ export class ClienteService {
       map((response:any)=> {
         (response.content as Cliente[]).map(cliente =>{
           cliente.nombre = cliente.nombre.toUpperCase();
-          let datePipe = new DatePipe('es');
+          //let datePipe = new DatePipe('es');
           //cliente.createAt = datePipe.transform(cliente.createAt, 'EEEE dd, MMMM yyyy'); //formatDate(cliente.createAt, 'dd-MM-yyyy', 'en-US');
           return cliente;
         });
@@ -62,7 +62,7 @@ export class ClienteService {
     )
   }
 
-  getCliente(id): Observable<Cliente> {
+  getCliente(id:any): Observable<Cliente> {
     return this.http.get<Cliente>(`${this.urlEndpoint}/${id}`).pipe(
       catchError(e =>{
         this.router.navigate(['/clientes']);
@@ -90,6 +90,21 @@ export class ClienteService {
   delete(id:number): Observable<Cliente> {
     return this.http.delete<Cliente>(`${this.urlEndpoint}/${id}`, {headers: this.httpHeaders}).pipe(
       catchError(e =>{
+        console.error(e.error.mensaje);
+        swal(e.error.mensaje, e.error.error, "error");
+        return throwError(e);
+      })
+    )
+  }
+
+  uploadPhoto(file: File, id:any): Observable<Cliente> {
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("id", id);
+
+    return this.http.post(`${this.urlEndpoint}/upload`, formData).pipe(
+      map((response:any) => response.cliente as Cliente),
+      catchError(e => {
         console.error(e.error.mensaje);
         swal(e.error.mensaje, e.error.error, "error");
         return throwError(e);
