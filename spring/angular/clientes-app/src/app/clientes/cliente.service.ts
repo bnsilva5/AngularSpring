@@ -4,7 +4,7 @@ import { formatDate, DatePipe } from '@angular/common';
 import { Cliente } from './cliente';
 import { of, Observable, throwError } from 'rxjs'; //-- Programacion reactiva
 import { map, catchError, tap} from 'rxjs/operators';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common/http';
 import swal from 'sweetalert2';
 
 import { Router } from '@angular/router';
@@ -97,18 +97,16 @@ export class ClienteService {
     )
   }
 
-  uploadPhoto(file: File, id:any): Observable<Cliente> {
+  uploadPhoto(file: File, id:any): Observable<HttpEvent<{}>> {
     let formData = new FormData();
     formData.append("file", file);
     formData.append("id", id);
 
-    return this.http.post(`${this.urlEndpoint}/upload`, formData).pipe(
-      map((response:any) => response.cliente as Cliente),
-      catchError(e => {
-        console.error(e.error.mensaje);
-        swal(e.error.mensaje, e.error.error, "error");
-        return throwError(e);
-      })
-    )
+    const req = new HttpRequest('POST', `${this.urlEndpoint}/upload`, formData, {
+      reportProgress: true
+    });
+
+    return this.http.request(req);
+
   }
 }
