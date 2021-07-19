@@ -27,4 +27,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm i @angular/cli@11.2.1
     - run: npm build
-    - run: npm test
+    - run: ng test
