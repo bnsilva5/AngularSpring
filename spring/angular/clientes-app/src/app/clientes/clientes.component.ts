@@ -40,6 +40,16 @@ export class ClientesComponent implements OnInit {
       this.clientes=response.content as Cliente[];
       this.paginador=response;
     });
+
+      this.modalService.notificarUpload.subscribe(cliente => {
+        this.clientes = this.clientes.map(clienteOriginal => {
+          if(cliente.id == clienteOriginal.id) {
+            clienteOriginal.photo = cliente.photo;
+          }
+          return clienteOriginal;
+        })
+      })
+
     })
   }
 
