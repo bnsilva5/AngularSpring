@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { formatDate, DatePipe } from '@angular/common';
 //import { CLIENTES } from './clientes.json';
 import { Cliente } from './cliente';
+import { Region } from './region';
 import { of, Observable, throwError } from 'rxjs'; //-- Programacion reactiva
 import { map, catchError, tap} from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common/http';
@@ -19,6 +20,11 @@ export class ClienteService {
   private httpHeaders = new HttpHeaders({'ContentType': 'application/json'})
 
   constructor(private http: HttpClient, private router: Router) { }
+
+                //arreglo de Regiones
+  getRegiones(): Observable<Region[]> {
+    return this.http.get<Region[]>(this.urlEndpoint + '/regiones');
+  }
 
   getClientes(page: number): Observable <any>{
     return this.http.get<Cliente[]>(this.urlEndpoint + '/page/' + page).pipe(
