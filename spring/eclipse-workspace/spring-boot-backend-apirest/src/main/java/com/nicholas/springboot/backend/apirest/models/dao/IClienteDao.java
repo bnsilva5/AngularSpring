@@ -1,8 +1,12 @@
 package com.nicholas.springboot.backend.apirest.models.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.nicholas.springboot.backend.apirest.models.entity.Cliente;
+import com.nicholas.springboot.backend.apirest.models.entity.Region;
 
 /**
  * Data Access Object
@@ -13,5 +17,8 @@ import com.nicholas.springboot.backend.apirest.models.entity.Cliente;
  */
 
 public interface IClienteDao extends JpaRepository <Cliente, Long>{
+	
+	@Query("from Region")
+	public List<Region> findAllRegiones();
 
 }
