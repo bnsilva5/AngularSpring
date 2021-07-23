@@ -9,6 +9,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="clientes")
 public class Cliente implements Serializable {
@@ -38,6 +40,12 @@ public class Cliente implements Serializable {
 	private Date createAt;
 	
 	private String photo;
+	
+	@NotEmpty(message = "La region no puede ser vacia")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="region_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private Region region;
 	
 	public Long getId() {
 		return id;
@@ -75,5 +83,12 @@ public class Cliente implements Serializable {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
+	public Region getRegion() {
+		return region;
+	}
+	public void setRegion(Region region) {
+		this.region = region;
+	}
+	
 
 }
